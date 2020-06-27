@@ -31,6 +31,15 @@ int max3(int a, int b, int c) {
 	}
 }
 
+void reverse_char_arr(char * arr, unsigned long long len) {
+	char t;
+	for (unsigned long long i = 0; i < len / 2; i++) {
+		t = arr[i];
+		arr[i] = arr[len - i - 1];
+		arr[len - i - 1] = t;
+	}
+}
+
 int main (UNUSED int argc, UNUSED char ** argv) {
 	const char * DNA1 = "STREETREEDTREETRAAAED";
 	const char * DNA2 = "TREEREEDSTREETTREEEED";
@@ -40,12 +49,14 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	unsigned long long DNA1_LEN = strlen(DNA1);
 	unsigned long long DNA2_LEN = strlen(DNA2);
 
+	// printf("%d   %d\n", DNA1_LEN, DNA2_LEN);
+
 	int GAP_PEN = -2;
 	int MIS_PEN = -1;
 	int NOO_PEN = 1;
 
 	int *arr = calloc((DNA1_LEN + 1), (DNA2_LEN + 1) * 4ULL);
-	char *fin = malloc(sizeof(char) * (DNA1_LEN + DNA2_LEN + 2));
+	char *fin = calloc(sizeof(char) * (DNA1_LEN + DNA2_LEN + 2), 1);
 	unsigned long long fin_len = 0;
 
 	if ((arr == NULL) || (fin == NULL)) {
@@ -76,7 +87,7 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 
 	// for (int i = 0; i < DNA1_LEN + 1; i++) {
 	// 	for (int j = 0; j < DNA2_LEN + 1; j++) {
-	// 		printf("%06d  ", arr[i * (DNA2_LEN + 1) + j]);
+	// 		printf("%04d  ", arr[i * (DNA2_LEN + 1) + j]);
 	// 	}
 	// 	putc('\n', stdout);
 	// }
@@ -96,15 +107,17 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 			fin[fin_len++] = (DNA1[x - 1] == DNA2[y - 1]) ? EQUAL : MISMATCH;
 			x--; y--;
 		} else if (arr[x * (DNA2_LEN + 1) + y] == (arr[(x - 1) * (DNA2_LEN + 1) + y] + GAP_PEN)) {
-			fin[fin_len++] = FIRST_GAP;
+			fin[fin_len++] = SECOND_GAP;
 			x--;
 		} else if (arr[x * (DNA2_LEN + 1) + y] == (arr[x * (DNA2_LEN + 1) + (y - 1)] + GAP_PEN)) {
-			fin[fin_len++] = SECOND_GAP;
+			fin[fin_len++] = FIRST_GAP;
 			y--;
 		} else {
 			exit(-1);
 		}
 	}
+
+	reverse_char_arr(fin, fin_len);
 
 	printf("Elapsed time: %lf\n", (double)(clock() - c1) / CLOCKS_PER_SEC);
 
