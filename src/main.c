@@ -41,9 +41,8 @@ void reverse_char_arr(char * arr, unsigned long long len) {
 }
 
 int main (UNUSED int argc, UNUSED char ** argv) {
-	const char * DNA1 = "STREETREEDTREETRAAAED";
-	const char * DNA2 = "TREEREEDSTREETTREEEED";
-
+	const char * DNA1 = "STREETREEDTREESAAAAART";
+	const char * DNA2 = "REEDTREESTRRETSEEEEESQ";
 	// printf("%d\n", sizeof(unsigned long long));
 
 	unsigned long long DNA1_LEN = strlen(DNA1);
@@ -198,22 +197,22 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 				printf("Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
 				printf("---------------------------------------------------------------\n");
 
-				x++;
-				y++;
+				x += j - i;
+				y += j - i;
 			} else if (fin[i] == FIRST_GAP) {
 				printf("Data not in first sequence found in offset %"PRId64" in second sequence.\n", y);
 				printf("Length of gap is %"PRId64"\n", j - i);
 				printf("Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
 				printf("---------------------------------------------------------------\n");
 
-				y++;
+				y += j - i;
 			} else {
 				printf("Data not in second sequence found in offset %"PRId64" in first sequence.\n", x);
 				printf("Length of gap is %"PRId64"\n", j - i);
 				printf("Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
 				printf("---------------------------------------------------------------\n");
 
-				x++;
+				x += j - i;
 			}
 			// printf("%d  %d\n", i, j);
 			i = j - 1;
