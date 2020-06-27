@@ -4,3 +4,4 @@ tmp
 
 *.exe
 *.obj
+*.tmp
