@@ -31,9 +31,9 @@ int max3(int a, int b, int c) {
 	}
 }
 
-void reverse_char_arr(char * arr, unsigned long long len) {
+void reverse_char_arr(char * arr, uint64_t len) {
 	char t;
-	for (unsigned long long i = 0; i < len / 2; i++) {
+	for (uint64_t i = 0; i < len / 2; i++) {
 		t = arr[i];
 		arr[i] = arr[len - i - 1];
 		arr[len - i - 1] = t;
@@ -43,10 +43,10 @@ void reverse_char_arr(char * arr, unsigned long long len) {
 int main (UNUSED int argc, UNUSED char ** argv) {
 	const char * DNA1 = "STREETREEDTREESAAAAART";
 	const char * DNA2 = "REEDTREESTRRETSEEEEESQ";
-	// printf("%d\n", sizeof(unsigned long long));
+	// printf("%d\n", sizeof(uint64_t));
 
-	unsigned long long DNA1_LEN = strlen(DNA1);
-	unsigned long long DNA2_LEN = strlen(DNA2);
+	uint64_t DNA1_LEN = strlen(DNA1);
+	uint64_t DNA2_LEN = strlen(DNA2);
 
 	// printf("%d   %d\n", DNA1_LEN, DNA2_LEN);
 
@@ -56,7 +56,7 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 
 	int *arr = calloc((DNA1_LEN + 1), (DNA2_LEN + 1) * 4ULL);
 	char *fin = calloc(sizeof(char) * (DNA1_LEN + DNA2_LEN + 2), 1);
-	unsigned long long fin_len = 0;
+	uint64_t fin_len = 0;
 
 	if ((arr == NULL) || (fin == NULL)) {
 		printf("Error: could not allocate memory\n");
@@ -68,16 +68,16 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	c1 = clock();
 
 
-	for (unsigned long long i = 0; i < DNA1_LEN + 1; i++) {
+	for (uint64_t i = 0; i < DNA1_LEN + 1; i++) {
 		arr[i * (DNA2_LEN + 1) + 0] = GAP_PEN * i;
 	}
 
-	for (unsigned long long i = 0; i < DNA2_LEN + 1; i++) {
+	for (uint64_t i = 0; i < DNA2_LEN + 1; i++) {
 		arr[0 * (DNA2_LEN + 1) + i] = GAP_PEN * i;
 	}
 
-	for (unsigned long long i = 1; i < DNA1_LEN + 1; i++) {
-		for (unsigned long long j = 1; j < DNA2_LEN + 1; j++) {
+	for (uint64_t i = 1; i < DNA1_LEN + 1; i++) {
+		for (uint64_t j = 1; j < DNA2_LEN + 1; j++) {
 			arr[i * (DNA2_LEN + 1) + j] = max3(arr[(i - 1) * (DNA2_LEN + 1) + (j - 1)] + ((DNA1[i - 1] == DNA2[j - 1]) ? NOO_PEN : MIS_PEN), 
 			                                   arr[i * (DNA2_LEN + 1) + (j - 1)] + GAP_PEN, 
 											   arr[(i - 1) * (DNA2_LEN + 1) + j] + GAP_PEN);
@@ -91,8 +91,8 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	// 	putc('\n', stdout);
 	// }
 
-	unsigned long long x = DNA1_LEN;
-	unsigned long long y = DNA2_LEN;
+	uint64_t x = DNA1_LEN;
+	uint64_t y = DNA2_LEN;
 
 	while(1) {
 		// printf("%d  %d\n", x, y);
@@ -122,8 +122,8 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 
 	printf("Elapsed time: %lf\n", (double)(clock() - c1) / CLOCKS_PER_SEC);
 
-	unsigned long long j = 0;
-	for (unsigned long long i = 0; i < fin_len; i++) {
+	uint64_t j = 0;
+	for (uint64_t i = 0; i < fin_len; i++) {
 		switch (fin[i]) {
 			case EQUAL:
 				putc(DNA1[j++], stdout);
@@ -145,7 +145,7 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 
 	putc('\n', stdout);
 
-	for (unsigned long long i = 0; i < fin_len; i++) {
+	for (uint64_t i = 0; i < fin_len; i++) {
 		switch (fin[i]) {
 			case EQUAL:
 				putc('|', stdout);
@@ -160,7 +160,7 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	putc('\n', stdout);
 
 	j = 0;
-	for (unsigned long long i = 0; i < fin_len; i++) {
+	for (uint64_t i = 0; i < fin_len; i++) {
 		switch (fin[i]) {
 			case EQUAL:
 				putc(DNA2[j++], stdout);
@@ -185,7 +185,7 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	x = 0;
 	y = 0;
 
-	for (unsigned long long i = 0; i < fin_len; i++) {
+	for (uint64_t i = 0; i < fin_len; i++) {
 		if (fin[i] != EQUAL) {
 			j = i;
 			for (; fin[j] == fin[i]; j++);
@@ -195,7 +195,6 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 				printf("Length of difference is %"PRId64"\n", j - i);
 				printf("Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
 				printf("Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
-				printf("---------------------------------------------------------------\n");
 
 				x += j - i;
 				y += j - i;
@@ -203,17 +202,16 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 				printf("Data not in first sequence found in offset %"PRId64" in second sequence.\n", y);
 				printf("Length of gap is %"PRId64"\n", j - i);
 				printf("Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
-				printf("---------------------------------------------------------------\n");
 
 				y += j - i;
 			} else {
 				printf("Data not in second sequence found in offset %"PRId64" in first sequence.\n", x);
 				printf("Length of gap is %"PRId64"\n", j - i);
 				printf("Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
-				printf("---------------------------------------------------------------\n");
 
 				x += j - i;
 			}
+			printf("---------------------------------------------------------------\n");
 			// printf("%d  %d\n", i, j);
 			i = j - 1;
 		} else {
