@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
+#include <inttypes.h>
 
 #define UNUSED __attribute__ ((unused))
 
@@ -31,8 +32,8 @@ int max3(int a, int b, int c) {
 }
 
 int main (UNUSED int argc, UNUSED char ** argv) {
-	const char * DNA1 = "STREETREEDTREE";
-	const char * DNA2 = "TREEREEDSTREET";
+	const char * DNA1 = "STREETREEDTREETRAAAED";
+	const char * DNA2 = "TREEREEDSTREETTREEEED";
 
 	// printf("%d\n", sizeof(unsigned long long));
 
@@ -162,6 +163,48 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 			
 			default:
 				break;
+		}
+	}
+
+	putc('\n', stdout);
+
+	x = 0;
+	y = 0;
+
+	for (unsigned long long i = 0; i < fin_len; i++) {
+		if (fin[i] != EQUAL) {
+			j = i;
+			for (; fin[j] == fin[i]; j++);
+
+			if (fin[i] == MISMATCH) {
+				printf("Difference found in offset %"PRId64" in first sequence and offset %"PRId64" in second sequence.\n", x, y);
+				printf("Length of difference is %"PRId64"\n", j - i);
+				printf("Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
+				printf("Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
+				printf("---------------------------------------------------------------\n");
+
+				x++;
+				y++;
+			} else if (fin[i] == FIRST_GAP) {
+				printf("Data not in first sequence found in offset %"PRId64" in second sequence.\n", y);
+				printf("Length of gap is %"PRId64"\n", j - i);
+				printf("Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
+				printf("---------------------------------------------------------------\n");
+
+				y++;
+			} else {
+				printf("Data not in second sequence found in offset %"PRId64" in first sequence.\n", x);
+				printf("Length of gap is %"PRId64"\n", j - i);
+				printf("Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
+				printf("---------------------------------------------------------------\n");
+
+				x++;
+			}
+			// printf("%d  %d\n", i, j);
+			i = j - 1;
+		} else {
+			x++;
+			y++;
 		}
 	}
 
