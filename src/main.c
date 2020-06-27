@@ -117,6 +117,8 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 		}
 	}
 
+	free(arr);
+
 	reverse_char_arr(fin, fin_len);
 
 	printf("Elapsed time: %lf\n", (double)(clock() - c1) / CLOCKS_PER_SEC);
@@ -221,7 +223,6 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 		}
 	}
 
-	free(arr);
 	free(fin);
 
 	return 0;
