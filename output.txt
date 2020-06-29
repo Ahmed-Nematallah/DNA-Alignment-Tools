@@ -1,0 +1,4 @@
+Elapsed time: 4.174000
+Similarity percentage 99.993304%
+08419: T=>C
+21469: A=>C
