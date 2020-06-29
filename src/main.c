@@ -117,7 +117,7 @@ void print_differences(const char * DNA1, const char * DNA2, char * fin, uint64_
 				// fprintf(fp, "Length of difference is %"PRId64"\n", j - i);
 				// fprintf(fp, "Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
 				// fprintf(fp, "Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
-				fprintf(fp, "%05"PRId64": %c=>%c\n", x + 1, DNA1[x], DNA2[y]);
+				fprintf(fp, "%05"PRId64"\t%c>%c\n", x + 1, DNA1[x], DNA2[y]);
 
 				x += j - i;
 				y += j - i;
@@ -125,14 +125,14 @@ void print_differences(const char * DNA1, const char * DNA2, char * fin, uint64_
 				// fprintf(fp, "Data not in first sequence found in offset %"PRId64" in second sequence.\n", y);
 				// fprintf(fp, "Length of gap is %"PRId64"\n", j - i);
 				// fprintf(fp, "Data from second sequence is:\n%.*s\n", (int)(j - i), DNA2 + y);
-				fprintf(fp, "%05"PRId64": -=>%c\n", x + 1, DNA2[y]);
+				fprintf(fp, "%05"PRId64"\t->%c\n", x + 1, DNA2[y]);
 
 				y += j - i;
 			} else {
 				// fprintf(fp, "Data not in second sequence found in offset %"PRId64" in first sequence.\n", x);
 				// fprintf(fp, "Length of gap is %"PRId64"\n", j - i);
 				// fprintf(fp, "Data from first sequence is:\n%.*s\n", (int)(j - i), DNA1 + x);
-				fprintf(fp, "%05"PRId64": %c=>-\n", x + 1, DNA1[x]);
+				fprintf(fp, "%05"PRId64"\t%c>-\n", x + 1, DNA1[x]);
 
 				x += j - i;
 			}
@@ -218,15 +218,6 @@ uint64_t sanitize_input(char * input) {
 	for (i = 0; i < len; i++)
 		if (input[i] >= 'a')
 			input[i] -= 0x20;
-
-	for (i = len - 1; input[i] == 'A'; i--);
-
-	i++;
-
-	if (len - i > 10) {
-		input[i] = 0;
-		len = i;
-	}
 
 	for (i = 0; i < len; i++) {
 		if (!((input[i] == 'A') || (input[i] == 'C') || (input[i] == 'T') || (input[i] == 'G'))) {
