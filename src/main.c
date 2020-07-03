@@ -169,23 +169,23 @@ void gen_fin_arr(char * DNA1, char * DNA2, uint64_t DNA1_LEN, uint64_t DNA2_LEN,
 	uint64_t y = DNA2_LEN;
 
 	while(1) {
-		// printf("%d  %d\n", x, y);
+		// printf("%"PRId64"  %"PRId64"     %"PRId64"\n", x, y, *fin_len);
 
 		if ((x == 0) && (y == 0)) {
 			break;
 		}
 
-		if (arr[x * (DNA2_LEN + 1) + y] == 
-		    (arr[(x - 1) * (DNA2_LEN + 1) + (y - 1)] + ((DNA1[x - 1] == DNA2[y - 1]) ? NOO_PEN : MIS_PEN))) {
+		if ((x > 0) && (y > 0) && (arr[x * (DNA2_LEN + 1) + y] == 
+		    (arr[(x - 1) * (DNA2_LEN + 1) + (y - 1)] + ((DNA1[x - 1] == DNA2[y - 1]) ? NOO_PEN : MIS_PEN)))) {
 			fin[(*fin_len)++] = (DNA1[x - 1] == DNA2[y - 1]) ? EQUAL : MISMATCH;
 			if (DNA1[x - 1] == DNA2[y - 1]) {
 				(*sim)++;
 			}
 			x--; y--;
-		} else if (arr[x * (DNA2_LEN + 1) + y] == (arr[(x - 1) * (DNA2_LEN + 1) + y] + GAP_PEN)) {
+		} else if ((x > 0) && (arr[x * (DNA2_LEN + 1) + y] == (arr[(x - 1) * (DNA2_LEN + 1) + y] + GAP_PEN))) {
 			fin[(*fin_len)++] = SECOND_GAP;
 			x--;
-		} else if (arr[x * (DNA2_LEN + 1) + y] == (arr[x * (DNA2_LEN + 1) + (y - 1)] + GAP_PEN)) {
+		} else if ((y > 0) && (arr[x * (DNA2_LEN + 1) + y] == (arr[x * (DNA2_LEN + 1) + (y - 1)] + GAP_PEN))) {
 			fin[(*fin_len)++] = FIRST_GAP;
 			y--;
 		} else {
