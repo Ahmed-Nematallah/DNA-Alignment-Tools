@@ -189,6 +189,7 @@ void gen_fin_arr(char * DNA1, char * DNA2, uint64_t DNA1_LEN, uint64_t DNA2_LEN,
 			fin[(*fin_len)++] = FIRST_GAP;
 			y--;
 		} else {
+			printf("Error encountered at line %d file %s\n", __LINE__, __FILE__);
 			exit(-1);
 		}
 	}
@@ -239,6 +240,16 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	FILE * fDNA1 = fopen64(FILE1_NAME, "r");
 	FILE * fDNA2 = fopen64(FILE2_NAME, "r");
 
+	if (!fDNA1) {
+		printf("Could not open first DNA file\n");
+		exit(-1);
+	}
+
+	if (!fDNA2) {
+		printf("Could not open second DNA file\n");
+		exit(-1);
+	}
+
 	fseek(fDNA1, 0L, SEEK_END);
 	fseek(fDNA2, 0L, SEEK_END);
 
@@ -251,6 +262,11 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	char * DNA1 = calloc(fDNA1_len + 1, 1);
 	char * DNA2 = calloc(fDNA2_len + 1, 1);
 
+	if ((DNA1 == NULL) || (DNA2 == NULL)) {
+		printf("Error: could not allocate memory line %d file %s\n", __LINE__, __FILE__);
+		exit(-1);
+	}
+
 	fread(DNA1, 1, fDNA1_len, fDNA1);
 	fread(DNA2, 1, fDNA2_len, fDNA2);
 
@@ -260,7 +276,11 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	FILE * fout;
 
 	fout = fopen64(FILE_OUT_NAME, "w");
-	// printf("%d\n", sizeof(uint64_t));
+
+	if (!fout) {
+		printf("Could not open output file\n");
+		exit(-1);
+	}
 
 	uint64_t DNA1_LEN = sanitize_input(DNA1);
 	uint64_t DNA2_LEN = sanitize_input(DNA2);
@@ -276,7 +296,7 @@ int main (UNUSED int argc, UNUSED char ** argv) {
 	uint64_t fin_len = 0;
 
 	if ((arr == NULL) || (fin == NULL)) {
-		printf("Error: could not allocate memory\n");
+		printf("Error: could not allocate memory line %d file %s\n", __LINE__, __FILE__);
 		exit(-1);
 	}
 
