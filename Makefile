@@ -15,10 +15,10 @@ DEPS=$(SRCDIR)/*.h
 SOURCES=$(shell find $(SRCDIR)/ -name *.c)
 OBJECTS=$(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-all: main
+all: $(BINDIR)/sequence_compare
 
-main: $(SOURCES) $(RESOURCE_OBJECTS)
-	$(CC) $(SOURCES) $(RESOURCE_OBJECTS) -o $(BINDIR)/main $(CFLAGS)
+$(BINDIR)/sequence_compare: $(SOURCES) $(RESOURCE_OBJECTS)
+	$(CC) $(SOURCES) $(RESOURCE_OBJECTS) -o $(BINDIR)/sequence_compare $(CFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
