@@ -5,3 +5,6 @@ tmp
 *.exe
 *.obj
 *.tmp
+
+DNA1_file.txt
+DNA2_file.txt
